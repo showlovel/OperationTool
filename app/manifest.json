@@ -13,12 +13,18 @@
             "scripts/background.js"
         ]
     },
-  "browser_action": {
-    "default_icon": {
-      "19": "images/icon-19.png",
-      "38": "images/icon-38.png"
-    },
-    "default_title": "OperationTool",
-    "default_popup": "popup.html"
+    "content_scripts": [
+        {
+          "matches": ["http://*/*"],
+          "js": ["scripts/jquery-1.9.0.js","scripts/test.js"],
+          "css": ["styles/tool.css"]
+        }
+    ],
+    "browser_action": {
+        "default_icon": {
+          "19": "images/icon-19.png",
+          "38": "images/icon-38.png"
+        },
+    "default_title": "OperationTool"
   }
 }
