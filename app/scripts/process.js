@@ -1,17 +1,5 @@
-function getSelectText(){
-    var txt = null;
-    if (window.getSelection){  // mozilla FF
-        txt = window.getSelection();
-       }
-    else if (document.getSelection){
-        txt = document.getSelection();
-        }
-    else if (document.selection){  //IE
-        txt = document.selection.createRange().text;
-        }
-    return txt;
-}
 
+// main process 
 document.onmouseup=function(env){
     text = getSelectText()
     data = text.toString()
@@ -35,19 +23,26 @@ document.onmouseup=function(env){
         
     }
 }
+//get select text
+function getSelectText(){
+    var txt = null;
+    if (window.getSelection){  // mozilla FF
+        txt = window.getSelection();
+       }
+    else if (document.getSelection){
+        txt = document.getSelection();
+        }
+    else if (document.selection){  //IE
+        txt = document.selection.createRange().text;
+        }
+    return txt;
+}
 //get mouse location
 function getMouse(ev){
-    x = ev.clientX
-    y = ev.clientY
-    scx = window.scrollX
-    scy = window.scrollY
+    var excursion = 15
     b = {}
-    b.x = x + scx + 10
-    b.y = y + scy + 10
-    console.log("x = "+x)
-    console.log("y = "+y)
-    console.log("scx = "+scx)
-    console.log("scy = "+scy)
+    b.x = ev.clientX + window.scrollX + excursion
+    b.y = ev.clientY + window.scrollY + excursion
     return b
 }
 //check ip info from ip138
@@ -56,7 +51,10 @@ function checkIp(ip,place){
     //checkIp Info
     $.get("http://www.ip138.com/ips1388.asp?ip="+ip+"&action=2",function(data){
         retinfo = $(data)[27].getElementsByTagName("td")[2].getElementsByTagName("li")[0]["innerText"]
-        toggleInfoDiv(retinfo,place.x,place.y)
+        info = {}
+        info.title = ip
+        info.content = retinfo
+        toggleInfoDiv(info,place.x,place.y)
     })
     console.log(retinfo)
     return retinfo
@@ -72,11 +70,20 @@ function checkGroup(group){
 }
 //add div to html
 function toggleInfoDiv(info,x,y){
-    $("#actinfo").append("<span>"+info+"</span>")
+    removeInfoDiv()
+    injectInfoDiv()
+    removeInformationDiv()
+    $(".r").append("<span id=\"title\">"+info.title+"</span>")
+    $("#actinfo").append("<span id=\"content\">"+info.content+"</span>")
     document.getElementById("infoDiv").style.top  = y+"px"
     document.getElementById("infoDiv").style.left = x+"px"
+    setTimeout("removeInfoDiv()",1500)
 }
 // remove chindren nodes
-function removeChildNode(){
-
+function removeInformationDiv(){
+    $("#content").remove()
+    $("#title").remove()
+}
+function removeInfoDiv(){
+    $("#infoDiv").remove()
 }
