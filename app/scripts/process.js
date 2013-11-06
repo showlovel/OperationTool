@@ -1,4 +1,3 @@
-
 // main process 
 document.onmouseup=function(env){
     text = getSelectText()
@@ -73,11 +72,12 @@ function toggleInfoDiv(info,x,y){
     removeInfoDiv()
     injectInfoDiv()
     removeInformationDiv()
+    infosize = info.length
     $(".r").append("<span id=\"title\">"+info.title+"</span>")
-    $("#actinfo").append("<span id=\"content\">"+info.content+"</span>")
+    $("#actinfo").append("<span id=\"content\">"+"IP138: "+info.content.substr(6,infosize)+"</span>")
     document.getElementById("infoDiv").style.top  = y+"px"
     document.getElementById("infoDiv").style.left = x+"px"
-    setTimeout("removeInfoDiv()",1500)
+    setTimeout("removeInfoDiv()",2000)
 }
 // remove chindren nodes
 function removeInformationDiv(){
