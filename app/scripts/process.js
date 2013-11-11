@@ -69,21 +69,30 @@ function checkGroup(group){
 }
 //add div to html
 function toggleInfoDiv(info,x,y){
-    removeInfoDiv()
-    injectInfoDiv()
+    undisplayInfoDiv()
+    dislpayInfoDiv()
     removeInformationDiv()
     infosize = info.length
     $(".r").append("<span id=\"title\">"+info.title+"</span>")
     $("#actinfo").append("<span id=\"content\">"+"IP138: "+info.content.substr(6,infosize)+"</span>")
     document.getElementById("infoDiv").style.top  = y+"px"
     document.getElementById("infoDiv").style.left = x+"px"
-    setTimeout("removeInfoDiv()",2000)
+    setTimeout("undisplayInfoDiv()",2000)
 }
 // remove chindren nodes
 function removeInformationDiv(){
     $("#content").remove()
     $("#title").remove()
 }
-function removeInfoDiv(){
-    $("#infoDiv").remove()
+//undisplay info div
+function undisplayInfoDiv(){
+    $("#infoDiv").fadeOut("slow", function(){
+        $("#infoDiv").css({ display: "none" })
+    });
+}
+// display info div
+function dislpayInfoDiv(){
+     $("#infoDiv").fadeIn("fast",function(){
+         $("#infoDiv").css({ display: "" })
+     });
 }
