@@ -9,11 +9,11 @@ document.onmouseup=function(env){
         var info = ""
         if(/^\d+\.\d+\.\d+\.\d+$/.test(data)){
             console.log("is a ip")
-            info = checkIp(data,place)
+            checkIp(data,place)
         }else if(/^[A-Za-z]{3}-[A-Za-z]{2,3}-[A-Za-z0-9]{1}-[A-Za-z0-9]{3}$/.test(data)){
         //check device
             console.log("is a device")
-            info = checkDevice(data)
+            checkDevice(data,place)
         }else if(/^[A-Za-z0-9.-]+$/.test(data)){
         //check group
             console.log("is group")
@@ -52,17 +52,24 @@ function checkIp(ip,place){
         retinfo = $(data)[27].getElementsByTagName("td")[2].getElementsByTagName("li")[0]["innerText"]
         info = {}
         info.title = ip
-        info.content = retinfo
+        info.content = "IP138: "+retinfo.substr(6,infosize)
         toggleInfoDiv(info,place.x,place.y)
     })
     console.log(retinfo)
     return retinfo
 }
-
-//check device info from sys
+// check deviceinfo from MsgOffer
 function checkDevice(device){
-    return device
+    $.get("http://localhost:3000/info/device.json?name="+device,function(data){
+        console.log(data)
+        content = "备注:"+data.description+"<br/>"+"Domain:"+data.domain+"<br/>"+"设备状态:"+data.devStatus
+        info = {}
+        info.title = device
+        info.content = content
+        toggleInfoDiv(info,place.x,place.y)
+    })
 }
+
 //check group info
 function checkGroup(group){
     return group
@@ -74,7 +81,7 @@ function toggleInfoDiv(info,x,y){
     removeInformationDiv()
     infosize = info.length
     $(".r").append("<span id=\"title\">"+info.title+"</span>")
-    $("#actinfo").append("<span id=\"content\">"+"IP138: "+info.content.substr(6,infosize)+"</span>")
+    $("#actinfo").append("<span id=\"content\">"+info.content+"</span>")
     document.getElementById("infoDiv").style.top  = y+"px"
     document.getElementById("infoDiv").style.left = x+"px"
     setTimeout("undisplayInfoDiv()",2000)
@@ -92,7 +99,7 @@ function undisplayInfoDiv(){
 }
 // display info div
 function dislpayInfoDiv(){
-     $("#infoDiv").fadeIn("fast",function(){
-         $("#infoDiv").css({ display: "" })
-     });
+//    $("#infoDiv").fadeIn("fast",function(){
+        $("#infoDiv").css({ display: "" })
+//    });
 }
