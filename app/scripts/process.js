@@ -52,7 +52,7 @@ function checkIp(ip,place){
         retinfo = $(data)[27].getElementsByTagName("td")[2].getElementsByTagName("li")[0]["innerText"]
         info = {}
         info.title = ip
-        info.content = "IP138: "+retinfo.substr(6,infosize)
+        info.content = "<tr><td>IP138:</td><td>"+retinfo.substr(6,ip.length)+"</td></tr>"
         toggleInfoDiv(info,place.x,place.y)
     })
     console.log(retinfo)
@@ -62,7 +62,10 @@ function checkIp(ip,place){
 function checkDevice(device){
     $.get("http://localhost:3000/info/device.json?name="+device,function(data){
         console.log(data)
-        content = "备注:"+data.description+"<br/>"+"Domain:"+data.domain+"<br/>"+"设备状态:"+data.devStatus
+        r1 = "<tr>"+"<td>备注:</td>"+"<td>"+data.description+"</td></tr>"
+        r2 = "<tr>"+"<td>Domain:</td>"+"<td>"+data.domain+"</td></tr>"
+        r3 = "<tr>"+"<td>设备状态:</td>"+"<td>"+data.devStatus+"</td></tr>"
+        content = r1+r2+r3
         info = {}
         info.title = device
         info.content = content
@@ -79,9 +82,9 @@ function toggleInfoDiv(info,x,y){
     undisplayInfoDiv()
     dislpayInfoDiv()
     removeInformationDiv()
-    infosize = info.length
+
     $(".r").append("<span id=\"title\">"+info.title+"</span>")
-    $("#actinfo").append("<span id=\"content\">"+info.content+"</span>")
+    $("#actinfo").append("<table id=\"content\">"+info.content+"</table>")
     document.getElementById("infoDiv").style.top  = y+"px"
     document.getElementById("infoDiv").style.left = x+"px"
     setTimeout("undisplayInfoDiv()",2000)
