@@ -81,9 +81,9 @@ function checkGroup(group){
         r1           = "<tr>" + "<td>OPEN:</td>"    +  "<td>" + data.OPEN    + "</td></tr>"
         r2           = "<tr>" + "<td>CLOSE:</td>"   +  "<td>" + data.CLOSE   + "</td></tr>"
         r3           = "<tr>" + "<td>SUSPEND:</td>" +  "<td>" + data.SUSPEND + "</td></tr>"
-        content      = r0+r1+r2+r 3
-        info         = { }
-        info.title   = grou p
+        content      = r0+r1+r2+r3
+        info         = {}
+        info.title   = group
         info.content = content
         toggleInfoDiv(info,place.x,place.y)
     })
@@ -92,13 +92,12 @@ function checkGroup(group){
 //add div to html
 function toggleInfoDiv(info,x,y){
     undisplayInfoDiv()
-    dislpayInfoDiv()
     removeInformationDiv()
-
     $(".r").append("<span id=\"title\">" + info.title + "</span>")
     $("#actinfo").append("<table id=\"content\">" + info.content + "</table>")
     document.getElementById("infoDiv").style.top  = y + "px"
     document.getElementById("infoDiv").style.left = x + "px"
+    dislpayInfoDiv()
     setTimeout("undisplayInfoDiv()",3000)
 }
 // remove chindren nodes
